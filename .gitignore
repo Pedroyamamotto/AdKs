@@ -1,0 +1,6 @@
+venv/
+.env
+_pycache_/
+*.pyc
+Agente_Yama/_pycache_/
+Agente_Yama/.adk/cache/
