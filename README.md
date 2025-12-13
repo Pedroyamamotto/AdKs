@@ -72,5 +72,67 @@ Este projeto utiliza dois mecanismos de correção para contornar incompatibilid
 1. **`patch_genai.py`**: Executado durante o build do Docker, corrige problemas de serialização na biblioteca `google-genai`.
 2. **`run_server.py`**: Um wrapper que inicia o servidor FastAPI, aplicando correções em tempo de execução para evitar erros de validação de tipos (`types.GenericAlias`) e garantir a estabilidade do serviço.
 
+## 📡 Exemplos de Requisições
+
+Aqui estão exemplos de como interagir com a API do agente.
+
+### 1. Criar Sessão
+
+**Endpoint:** `POST https://yamamotto-agent-latest.onrender.com/apps/my_agent/users/user1/sessions`
+
+**Resposta:**
+```json
+{
+    "id": "1496d149-3e95-449d-9645-2bbe3df987ef", // ID da sessão usado para fazer perguntas
+    "appName": "my_agent",
+    "userId": "user1",
+    "state": {},
+    "events": [],
+    "lastUpdateTime": 1765652113.8772488
+}
+```
+
+### 2. Enviar Mensagem (Run)
+
+**Endpoint:** `POST https://yamamotto-agent-latest.onrender.com/run`
+
+**Body:**
+```json
+{
+  "app_name": "my_agent",
+  "user_id": "user1",
+  "session_id": "1496d149-3e95-449d-9645-2bbe3df987ef",
+  "new_message": {
+    "role": "user",
+    "parts": [
+      {
+        "text": "como intalar minha Yamamotto YA500w"
+      }
+    ]
+  }
+}
+```
+
+**Resposta (Exemplo):**
+```json
+[
+    {
+        "modelVersion": "gemini-2.5-flash",
+        "content": {
+            "parts": [
+                {
+                    "text": "Olá! Sou o especialista técnico da Yamamotto. Para começarmos, qual a marca e modelo da sua fechadura e o que está acontecendo?\n"
+                },
+                {
+                    "text": "Para instalar sua fechadura *Yamamotto YA 500W*, siga estes passos detalhados..."
+                }
+            ],
+            "role": "model"
+        },
+        // ... metadados omitidos ...
+    }
+]
+```
+
 ---
 Desenvolvido por Masterbarreto.
